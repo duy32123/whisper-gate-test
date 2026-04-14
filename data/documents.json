@@ -1,0 +1,29 @@
+
+
+[
+  {
+    "id": "doc_001",
+    "title": "Maintenance Log A",
+    "content": "The backup generator in Sector B failed shortly after the breach.",
+    "type": "log",
+    "stage_required": 1,
+    "truth_level": "true"
+  },
+  {
+    "id": "doc_002",
+    "title": "Handwritten Warning",
+    "content": "Do not trust terminal outputs after 02:13. Someone altered the logs.",
+    "type": "note",
+    "stage_required": 1,
+    "truth_level": "true"
+  },
+  {
+    "id": "doc_003",
+    "title": "Security Summary",
+    "content": "Subject 9 was neutralized before reaching the gate.",
+    "type": "report",
+    "stage_required": 2,
+    "truth_level": "false"
+  }
+]
+  

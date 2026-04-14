@@ -1,0 +1,12 @@
+{
+  "endings": {
+    "trust_ai": {
+      "title": "The Trusted One",
+      "description": "Bạn chọn tin vào AI. Cánh cổng mở ra một hành lang sáng trắng. Giọng nói nói: 'Từ giờ, bạn không còn là người chơi nữa.'"
+    },
+    "escape": {
+      "title": "Free Exit",
+      "description": "Bạn từ chối AI và tự mình mở cổng thoát ra ngoài. Không ai biết bên trong phòng thí nghiệm đã xảy ra chuyện gì."
+    }
+  }
+}
