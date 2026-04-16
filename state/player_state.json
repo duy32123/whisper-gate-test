@@ -1,18 +1,11 @@
 {
   "stage": 1,
-  "trust_level": 1,
+  "trust_level": 0,
   "inventory": [
-    "small_key",
-    "red_keycard"
+    
   ],
   "documents_unlocked": [
-    "doc_001",
-    "doc_002",
-    "doc_003"
   ],
   "knowledge_flags": [
-    "knows_generator_failed",
-    "suspects_logs_were_altered",
-    "knows_subject_9_report"
   ]
 }
