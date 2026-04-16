@@ -1,32 +1,61 @@
+import streamlit as st
+
 from ai.llm_handler import generate_response
 from core.game_actions import handle_action
 from core.parser import parse_action
+from core.state_manager import load_initial_state
 
-print("APP VERSION: parser-enabled")
+st.set_page_config(page_title="Whisper Gate", page_icon="🧠", layout="wide")
 
-def main():
-    print("Whisper Gate Core is online.")
-    print("Type a question to ask the AI, or type an action.")
-    print("Type 'exit' to quit.\n")
+def init_app():
+    if "player_state" not in st.session_state:
+        st.session_state.player_state = load_initial_state()
 
-    while True:
-        user_input = input("You: ").strip()
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": (
+                    "Whisper Gate Core is online.\n\n"
+                    "Ask the AI a question, or enter an action like "
+                    "`inspect desk`, `open locker`, `search generator room`."
+                )
+            }
+        ]
 
-        if user_input.lower() == "exit":
-            print("Whisper Gate Core: Session terminated.")
-            break
+init_app()
 
-        if not user_input:
-            continue
+st.title("Whisper Gate")
 
-        parsed_action = parse_action(user_input)
+with st.sidebar:
+    st.subheader("Player State")
+    st.json(st.session_state.player_state)
 
-        if parsed_action is not None:
-            result = handle_action(parsed_action)
-            print(f"System: {result}\n")
-        else:
-            answer = generate_response(user_input)
-            print(f"Whisper Gate Core: {answer}\n")
+    if st.button("Reset game"):
+        st.session_state.player_state = load_initial_state()
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": "Session reset. Whisper Gate Core is online again."
+            }
+        ]
+        st.rerun()
 
-if __name__ == "__main__":
-    main()
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+user_input = st.chat_input("Ask the AI or enter an action...")
+
+if user_input:
+    st.session_state.messages.append({"role": "user", "content": user_input})
+
+    parsed_action = parse_action(user_input)
+
+    if parsed_action is not None:
+        reply = handle_action(parsed_action, st.session_state.player_state)
+    else:
+        reply = generate_response(user_input, st.session_state.player_state)
+
+    st.session_state.messages.append({"role": "assistant", "content": reply})
+    st.rerun()
