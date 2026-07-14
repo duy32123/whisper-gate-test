@@ -1,18 +1,52 @@
-print("PARSER VERSION: loaded")
+COMMAND_VERBS = {
+    "look",
+    "inspect",
+    "search",
+    "open",
+    "take",
+    "use",
+    "unlock",
+}
+
+INFORMATION_COMMANDS = {
+    "inventory",
+    "documents",
+    "state",
+    "help",
+}
+
+ALIASES = {
+    "look": "look around",
+    "look around": "look around",
+    "look room": "look around",
+    "look at room": "look around",
+    "check state": "state",
+    "show state": "state",
+    "status": "state",
+    "show inventory": "inventory",
+    "bag": "inventory",
+    "show documents": "documents",
+    "docs": "documents",
+    "document": "documents",
+    "commands": "help",
+    "?": "help",
+}
+
 
 def parse_action(user_input: str):
-    text = user_input.strip().lower()
+    text = " ".join(user_input.strip().lower().split())
 
-    if any(phrase in text for phrase in ["inspect desk", "search desk", "look at desk", "check desk"]):
-        return "inspect desk"
+    if not text:
+        return None
 
-    if any(phrase in text for phrase in ["search generator room", "inspect generator room", "check generator room"]):
-        return "search generator room"
+    if text in ALIASES:
+        return ALIASES[text]
 
-    if any(phrase in text for phrase in ["open locker", "check locker", "inspect locker"]):
-        return "open locker"
+    if text in INFORMATION_COMMANDS:
+        return text
 
-    if text in {"check state", "show state", "status"}:
-        return "check state"
+    for verb in COMMAND_VERBS:
+        if text == verb or text.startswith(f"{verb} "):
+            return text
 
     return None
