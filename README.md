@@ -88,3 +88,21 @@ Một lượt chơi điển hình có thể như sau:
 - `documents`
 - `state`
 - `help`
+
+## AI Embedding Setup
+
+By default, the retriever uses local `sentence-transformers/all-MiniLM-L6-v2` embeddings when the local dependencies are installed. To use NVIDIA's OpenAI-compatible embedding endpoint instead, install dependencies and set your API key before running Streamlit:
+
+```bash
+export NVIDIA_API_KEY="your_api_key_here"
+streamlit run app.py
+```
+
+The app will then call NVIDIA NIM with `baai/bge-m3` through the OpenAI Python SDK. You can override the embedding model or base URL if needed:
+
+```bash
+export NVIDIA_EMBEDDING_MODEL="baai/bge-m3"
+export NVIDIA_BASE_URL="https://integrate.api.nvidia.com/v1"
+```
+
+Note: `baai/bge-m3` is an embedding model, so it improves which unlocked documents ORION retrieves as context. The generated answer still comes from the configured text-generation model in `ai/llm_handler.py`.
